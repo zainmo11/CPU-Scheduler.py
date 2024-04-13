@@ -29,11 +29,7 @@ def sjf_non_preemptive(processes):
     avg_waiting_time = total_waiting_time / len(processes)
     avg_turnaround_time = total_turnaround_time / len(processes)
 
-    print("Process ID\tArrival Time\tBurst Time\tCompletion Time\tTurnaround Time\tWaiting Time")
-    for process in processes:
-        print(f"{process.pid}\t\t{process.arrival_time}\t\t{process.burst_time}\t\t{process.completion_time}\t\t{process.turnaround_time}\t\t{process.waiting_time}")
-    print(f"\nAverage Waiting Time: {avg_waiting_time:.2f}")
-    print(f"Average Turnaround Time: {avg_turnaround_time:.2f}")
+    Process.print_process(processes , avg_waiting_time ,avg_turnaround_time)
 
 
 def sjf_preemptive(processes):
@@ -68,9 +64,8 @@ def sjf_preemptive(processes):
     avg_waiting_time = total_waiting_time / len(processes)
     avg_turnaround_time = total_turnaround_time / len(processes)
 
-    Process.print_process(processes)
-    print(f"\nAverage Waiting Time: {avg_waiting_time:.2f}")
-    print(f"Average Turnaround Time: {avg_turnaround_time:.2f}")
+    Process.print_process(processes , avg_waiting_time ,avg_turnaround_time)
+
 
 # Test code
 process_list=[]
