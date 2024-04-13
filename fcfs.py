@@ -14,10 +14,11 @@ def fcfs(pro: list):
         p.turnaround_time = elapsed - p.arrival_time
         p.done = True
         turnar += p.turnaround_time
-    Process.print_process(pro)
-    print(f"\nAverage Waiting Time: {waiting / len(pro):.2f}")
-    print(f"Average Turnaround Time: {turnar / len(pro):.2f}")
-    return turnar / len(pro), waiting / len(pro)
+    
+    avg_turnaround_time = turnar / len(pro)
+    avg_waiting_time = waiting / len(pro)
+    Process.print_process(pro , avg_waiting_time , avg_turnaround_time )
+
 
 
 # testing
