@@ -2,6 +2,7 @@ import pygame
 
 from process import Process
 from fcfs import fcfs
+from SJF import sjf_non_preemptive, sjf_preemptive
 
 
 WIDTH = 800
@@ -27,7 +28,7 @@ class GUIInterface():
             self.screen.fill("black")
 
             # Rendering happens here
-            gantt_chart = self._draw_gantt_chart(mode="fcfs", processes=dummy_process)
+            gantt_chart = self._draw_gantt_chart(mode=fcfs, processes=dummy_process)
             for process, pid in gantt_chart:
                 pygame.draw.rect(self.screen, (255, 255, 255), process, 2)
                 self.screen.blit(
@@ -38,10 +39,10 @@ class GUIInterface():
             pygame.display.flip()
             dt = self.clock.tick(FPS) / 1000
 
-    def _draw_gantt_chart(self, mode, processes: list[Process]):
+    def _draw_gantt_chart(self, mode=fcfs, processes: list[Process]=[]):
         y_coordinate = HEIGHT / 3
         rectangle_width = WIDTH - 60
-        rendering_list = fcfs(processes)
+        rendering_list = mode(processes)
         total_time = max([process[2] for process in rendering_list])
         chart_unit_time = rectangle_width / total_time
         
@@ -61,6 +62,9 @@ class GUIInterface():
             last_process_end = last_process_end - 2 + process_width
 
         return process_rect_list
+    
+    def _construct_button_panel(self):
+        pass
 
 if __name__ == "__main__":
     graphical_interface = GUIInterface()

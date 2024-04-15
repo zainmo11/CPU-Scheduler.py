@@ -5,6 +5,7 @@ def sjf_non_preemptive(processes):
 
     current_time = 0
     completed = 0
+    gui = []
     while completed < len(processes):
         next_process = None
         min_burst_time = float('inf')
@@ -22,6 +23,7 @@ def sjf_non_preemptive(processes):
             next_process.waiting_time = next_process.turnaround_time - next_process.burst_time
             current_time = next_process.completion_time
             completed += 1
+            gui += [(next_process.pid, next_process.burst_time, next_process.completion_time)]
 
     # Calculate average waiting time and average turnaround time
     total_waiting_time = sum(process.waiting_time for process in processes)
