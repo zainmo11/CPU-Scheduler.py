@@ -10,6 +10,19 @@ class Process:
         self.priority = priority
         self.done = False
 
+    def _reset(self):
+        self.burst_time = self.original_burst_time
+        self.completion_time = 0
+        self.turnaround_time = 0
+        self.waiting_time = 0
+        self.done = False
+
+    @classmethod
+    def reset_all(cls, processes):
+        for process in processes:
+            process._reset()
+        return processes
+
     @staticmethod
     def print_process(processes: list, avg_waiting_time, avg_turnaround_time):
         print("\nProcess_ID\tArrival_Time\tBurst_Time\tCompletion_Time\tTurnaround_Time\tWaiting_Time\tPriority")

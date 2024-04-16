@@ -1,10 +1,11 @@
-from process import *
+from process import Process
 
 def sjf_non_preemptive(processes):
     processes.sort(key=lambda process: process.burst_time)
 
     current_time = 0
     completed = 0
+
     gantt = []
 
     while completed < len(processes):
@@ -25,10 +26,12 @@ def sjf_non_preemptive(processes):
             gantt.append((next_process.pid, current_time, next_process.completion_time))
             current_time = next_process.completion_time
             completed += 1
+
         else:
             # If no process available, append an "Idle" tuple to the Gantt chart
             gantt.append(("Idle", current_time, current_time + 1))
             current_time += 1
+
 
     # Calculate average waiting time and average turnaround time
     total_waiting_time = sum(process.waiting_time for process in processes)
@@ -38,6 +41,7 @@ def sjf_non_preemptive(processes):
     print(gantt)
     Process.print_process(processes, avg_waiting_time, avg_turnaround_time)
     return gantt, avg_waiting_time, avg_turnaround_time
+
 
 
 def sjf_preemptive(processes):
