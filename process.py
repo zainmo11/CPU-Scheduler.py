@@ -8,6 +8,20 @@ class Process:
         self.waiting_time = 0
         self.original_burst_time = burst_time
         self.done = False
+
+    def _reset(self):
+        self.burst_time = self.original_burst_time
+        self.completion_time = 0
+        self.turnaround_time = 0
+        self.waiting_time = 0
+        self.done = False
+
+    @classmethod
+    def reset_all(cls, processes):
+        for process in processes:
+            process._reset()
+        return processes
+
         
     def print_process(p:list,avg_waiting_time,avg_turnaround_time):
         print("Process ID\tArrival Time\tBurst Time\tCompletion Time\tTurnaround Time\tWaiting Time")
