@@ -3,6 +3,7 @@ from gui import GUIInterface
 
 graphical_interface = GUIInterface(scheduler_window)
 algorithm_selector.set_onchange(graphical_interface.set_algorithm)
+algorithm_selector.set_onselect(graphical_interface._construct_gantt_chart)
 
 
 def game_loop():
