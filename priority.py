@@ -41,6 +41,10 @@ def non_preemptive_priority(processes):
     avg_waiting_time = sum(process.waiting_time for process in completed.values()) / len(completed)
     avg_turnaround_time = sum(process.turnaround_time for process in completed.values()) / len(completed)
     Process.print_process(list(completed.values()), avg_waiting_time, avg_turnaround_time)
+<<<<<<< HEAD
+=======
+    return gantt, avg_waiting_time, avg_turnaround_time
+>>>>>>> origin/priority
 
 def preemptive_priority(processes):
     t = 0
@@ -84,6 +88,10 @@ def preemptive_priority(processes):
     avg_waiting_time = sum(process.waiting_time for process in completed.values()) / len(completed)
     avg_turnaround_time = sum(process.turnaround_time for process in completed.values()) / len(completed)
     Process.print_process(list(completed.values()), avg_waiting_time, avg_turnaround_time)
+<<<<<<< HEAD
+=======
+    return gantt, avg_waiting_time, avg_turnaround_time
+>>>>>>> origin/priority
 
 
 # Test code
