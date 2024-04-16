@@ -11,7 +11,7 @@ def non_preemptive_priority(processes):
                 available.append(p)
 
         if not available:
-            gantt.append("Idle")
+            gantt.append(("Idle", t, t + 1))
             t += 1
             continue
         else:
@@ -22,16 +22,15 @@ def non_preemptive_priority(processes):
             processes.remove(process)
             # 2. Add to gantt chart
             pid = process.pid
-            gantt.append(pid)
+            gantt.append((pid, t, t + process.burst_time))
             # 3. Update the time
-            burst_time = process.burst_time
-            t += burst_time
+            t += process.burst_time
             # Create an entry in the completed dictionary
             # Calculate ct, tt, wt
             ct = t
             arrival_time = process.arrival_time
             tt = ct - arrival_time
-            wt = tt - burst_time
+            wt = tt - process.burst_time
             process.completion_time = ct
             process.turnaround_time = tt
             process.waiting_time = wt
@@ -41,11 +40,7 @@ def non_preemptive_priority(processes):
     avg_waiting_time = sum(process.waiting_time for process in completed.values()) / len(completed)
     avg_turnaround_time = sum(process.turnaround_time for process in completed.values()) / len(completed)
     Process.print_process(list(completed.values()), avg_waiting_time, avg_turnaround_time)
-<<<<<<< HEAD
-=======
     return gantt, avg_waiting_time, avg_turnaround_time
->>>>>>> origin/priority
-
 def preemptive_priority(processes):
     t = 0
     gantt = []
@@ -60,13 +55,13 @@ def preemptive_priority(processes):
             if p.arrival_time <= t:
                 available.append(p)
         if not available:
-            gantt.append("Idle")
+            gantt.append(("Idle", t, t + 1))
             t += 1
             continue
         else:
             available.sort(key=lambda x: x.priority)
             process = available[0]
-            gantt.append(process.pid)
+            gantt.append((process.pid, t, t + 1))  # Assume one unit of time is allocated for each step
             t += 1
             # Updating the burst time
             process.burst_time -= 1
@@ -84,31 +79,29 @@ def preemptive_priority(processes):
                 process.waiting_time = wt
                 completed[pid] = process
                 processes.remove(process)
+
     print(gantt)
     avg_waiting_time = sum(process.waiting_time for process in completed.values()) / len(completed)
     avg_turnaround_time = sum(process.turnaround_time for process in completed.values()) / len(completed)
     Process.print_process(list(completed.values()), avg_waiting_time, avg_turnaround_time)
-<<<<<<< HEAD
-=======
     return gantt, avg_waiting_time, avg_turnaround_time
->>>>>>> origin/priority
 
 
 # Test code
 if __name__ == "__main__":
     process_list = [
-        Process("p1", 2, 6, 5),
-        Process("p2", 5, 2, 4),
-        Process("p3", 1, 8, 1),
-        Process("p4", 0, 3, 2),
-        Process("p5", 4, 4, 3)
+        Process("1", 2, 6, 5),
+        Process("2", 5, 2, 4),
+        Process("3", 1, 8, 1),
+        Process("4", 0, 3, 2),
+        Process("5", 4, 4, 3)
     ]
     non_preemptive_priority(process_list)
     process_list = [
-        Process("p1", 2, 6, 5),
-        Process("p2", 5, 2, 4),
-        Process("p3", 1, 8, 1),
-        Process("p4", 0, 3, 2),
-        Process("p5", 4, 4, 3)
+        Process("1", 2, 6, 5),
+        Process("2", 5, 2, 4),
+        Process("3", 1, 8, 1),
+        Process("4", 0, 3, 2),
+        Process("5", 4, 4, 3)
     ]
     preemptive_priority(process_list)
