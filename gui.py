@@ -54,7 +54,7 @@ class GUIInterface():
         y_coordinate = HEIGHT / 3
         rectangle_width = WIDTH - 60
 
-        processes = Process.reset_all(dummy_process)
+        processes = Process.reset_all(processes)
         rendering_list = self.algorithm(processes)
         total_time = max([process[2] for process in rendering_list])
         chart_unit_time = rectangle_width / total_time
