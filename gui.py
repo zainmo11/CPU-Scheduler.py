@@ -27,7 +27,8 @@ class GUIInterface():
         self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont(None, 24)
         self.screen = DISPLAY
-        self._construct_gantt_chart(mode=fcfs, processes=dummy_process)
+        self.algorithm = fcfs
+        self._construct_gantt_chart(processes=dummy_process)
 
     def set_algorithm(self, _ , index):
         algos = [fcfs, sjf_preemptive, sjf_non_preemptive, round_robin]
@@ -49,12 +50,12 @@ class GUIInterface():
             )
         dt = self.clock.tick(FPS) / 1000
 
-    def _construct_gantt_chart(self, data=None, mode=fcfs, processes: list[Process]=[]):
+    def _construct_gantt_chart(self, processes: list[Process]=dummy_process):
         y_coordinate = HEIGHT / 3
         rectangle_width = WIDTH - 60
 
-        processes = Process.reset_all(processes)
-        rendering_list = mode(processes)
+        processes = Process.reset_all(dummy_process)
+        rendering_list = self.algorithm(processes)
         total_time = max([process[2] for process in rendering_list])
         chart_unit_time = rectangle_width / total_time
 
