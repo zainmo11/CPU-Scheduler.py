@@ -2,6 +2,8 @@ from menu import *
 from gui import GUIInterface
 
 graphical_interface = GUIInterface(scheduler_window)
+algorithm_selector.set_onchange(graphical_interface.set_algorithm)
+
 
 def game_loop():
     while True:

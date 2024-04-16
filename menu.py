@@ -41,7 +41,7 @@ main_menu = pgm.Menu(
 
 play_button = main_menu.add.button("Start Scheduling", scheduler_window)
 
-mode_selector = main_menu.add.selector(
+algorithm_selector = main_menu.add.selector(
     "Algorithm ",
     [("FCFS", 0), ("SJF-Non-Preemptive", 1), ("SJF-Preemptive", 2),  ("Round Robin", 3)],
     onchange=None,

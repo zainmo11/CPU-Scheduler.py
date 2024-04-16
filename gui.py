@@ -17,6 +17,9 @@ dummy_process = [Process(1,0,7), Process(2, 2, 4), Process(3, 4, 1), Process(4, 
 def sentinel():
     return [(0, 1, 2)]
 
+def round_robin():
+    pass
+
 class GUIInterface():
     
     def __init__(self, scheduler_window):
@@ -25,6 +28,10 @@ class GUIInterface():
         self.font = pygame.font.SysFont(None, 24)
         self.screen = DISPLAY
         self._construct_gantt_chart(mode=fcfs, processes=dummy_process)
+
+    def set_algorithm(self, _ , index):
+        algos = [fcfs, sjf_preemptive, sjf_non_preemptive, round_robin]
+        self.algorithm =  algos[index]
 
     def reset(self):
         self._menu.full_reset()
@@ -41,8 +48,6 @@ class GUIInterface():
                 (process.x + (process.width - pid.get_width()) / 2, process.y + (process.height - pid.get_height()) / 2)
             )
         dt = self.clock.tick(FPS) / 1000
-
-
 
     def _construct_gantt_chart(self, data=None, mode=fcfs, processes: list[Process]=[]):
         y_coordinate = HEIGHT / 3
