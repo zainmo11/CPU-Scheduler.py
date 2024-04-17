@@ -27,7 +27,6 @@ scheduler_window = pgm.Menu(
     position=(0, 0),
 )
 
-
 main_menu = pgm.Menu(
     title="CPU Scheduler",
     width=WIDTH,
@@ -39,7 +38,12 @@ main_menu = pgm.Menu(
     verbose=False,
 )
 
-play_button = main_menu.add.button("Start Scheduling", scheduler_window)
+def switch_scenes():
+    main_menu.toggle()
+    scheduler_window.toggle()
+
+play_button = main_menu.add.button("Start Scheduling", switch_scenes)
+back_button = scheduler_window.add.button("Back", switch_scenes)
 
 algorithm_selector = main_menu.add.selector(
     "Algorithm ",

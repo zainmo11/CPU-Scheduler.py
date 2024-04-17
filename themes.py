@@ -27,7 +27,6 @@ game_theme_attributes = {
     "title_bar_style": pgm.widgets.MENUBAR_STYLE_SIMPLE,
     "title_font_color": "#ffffff",
     "title_background_color": "#10000000",
-    "title_close_button": True,
     "title_offset": (0, 0),
     "widget_font_size": 10,
     "widget_font": pgm.font.FONT_MUNRO,

@@ -20,12 +20,11 @@ def fcfs(processes: list):
         process.turnaround_time = elapsed - process.arrival_time
         process.done = True
         turnar += process.turnaround_time
-    print(grantt)
+        
     # Calculate average turnaround time and average waiting time
     avg_turnaround_time = turnar / len(processes)
     avg_waiting_time = waiting / len(processes)
     Process.print_process(processes, avg_waiting_time, avg_turnaround_time)
-
     return grantt , avg_waiting_time, avg_turnaround_time
 
 

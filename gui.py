@@ -1,9 +1,4 @@
 import pygame
-import pygame_menu
-
-from functools import partial
-
-import pygame_menu.themes
 
 from fcfs import fcfs
 from process import Process
@@ -39,8 +34,12 @@ class GUIInterface():
         self._menu.clear()
 
     def start_update_loop(self, events):
-
         self._menu.update(events)
+        try:
+            self._menu.draw(self.screen)
+        except RuntimeError:
+            pass
+
         # Rendering happens here
         for process, pid in self._process_rect_list:
             pygame.draw.rect(self.screen, WHITE, process, 2)
