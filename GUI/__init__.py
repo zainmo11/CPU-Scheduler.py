@@ -15,7 +15,10 @@ FPS = 30
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
 
 from .menu import (
+    add_button,
+    arrival_time_input,
     algorithm_selector,
+    burst_time_input,
     main_menu,
     scheduler_window,
 )

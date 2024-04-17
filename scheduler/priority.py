@@ -5,9 +5,13 @@ def non_preemptive_priority(processes):
     gantt = []
     t = 0
     completed = {}
-    while processes:
+
+    # since we have a global process registry it is forbidden
+    # to remove objects from it, so creating a copy is better
+    local_processes = processes.copy()
+    while local_processes:
         available = []
-        for p in processes:
+        for p in local_processes:
             if p.arrival_time <= t:
                 available.append(p)
 
@@ -20,7 +24,7 @@ def non_preemptive_priority(processes):
             process = available[0]
             # Service the process
             # 1. Remove the process
-            processes.remove(process)
+            local_processes.remove(process)
             # 2. Add to gantt chart
             pid = process.pid
             gantt.append((pid, t, t + process.burst_time))
@@ -42,17 +46,19 @@ def non_preemptive_priority(processes):
     avg_turnaround_time = sum(process.turnaround_time for process in completed.values()) / len(completed)
     Process.print_process(list(completed.values()), avg_waiting_time, avg_turnaround_time)
     return gantt, avg_waiting_time, avg_turnaround_time
+
 def preemptive_priority(processes):
     t = 0
     gantt = []
     completed = {}
     burst_times = {}
-    for p in processes:
+    local_processes = processes.copy()
+    for p in local_processes:
         burst_times[p.pid] = p.burst_time
-    while processes:
+    while local_processes:
         # Finding the available processes
         available = []
-        for p in processes:
+        for p in local_processes:
             if p.arrival_time <= t:
                 available.append(p)
         if not available:
@@ -79,7 +85,7 @@ def preemptive_priority(processes):
                 process.turnaround_time = tt
                 process.waiting_time = wt
                 completed[pid] = process
-                processes.remove(process)
+                local_processes.remove(process)
 
     print(gantt)
     avg_waiting_time = sum(process.waiting_time for process in completed.values()) / len(completed)

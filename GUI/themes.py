@@ -27,11 +27,11 @@ game_theme_attributes = {
     "title_font_color": "#ffffff",
     "title_background_color": "#10000000",
     "title_offset": (0, 0),
-    "widget_font_size": 10,
+    "widget_font_size": 32,
     "widget_font": pgm.font.FONT_MUNRO,
     "widget_font_color": "#595757",
     "widget_offset": (0, 0),
-    "widget_padding": (0, 0),
+    "widget_padding": (5, 5),
 }
 
 

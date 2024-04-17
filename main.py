@@ -1,17 +1,26 @@
 import pygame
 
 from GUI import (
+    add_button,
     algorithm_selector,
+    arrival_time_input,
+    burst_time_input,
     DISPLAY,
     GUIInterface,
     main_menu,
     scheduler_window,
 )
 
-
 graphical_interface = GUIInterface(scheduler_window)
-algorithm_selector.set_onchange(graphical_interface.set_algorithm)
-algorithm_selector.set_onselect(graphical_interface._construct_gantt_chart)
+
+def set_and_construct(_, index):
+    graphical_interface.set_algorithm(_, index)
+    graphical_interface._construct_gantt_chart()
+
+algorithm_selector.set_onchange(set_and_construct)
+add_button.update_callback(lambda: graphical_interface.add_process(
+    int(arrival_time_input.get_value()), int(burst_time_input.get_value())
+))
 
 def game_loop():
     while True:
@@ -35,4 +44,6 @@ def game_loop():
             graphical_interface.start_update_loop(events)
 
         pygame.display.flip()
-game_loop()
+
+if __name__ == "__main__":
+    game_loop()
