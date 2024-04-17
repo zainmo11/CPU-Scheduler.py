@@ -1,4 +1,4 @@
-from process import *
+from .process import Process
 
 
 def fcfs(processes: list):

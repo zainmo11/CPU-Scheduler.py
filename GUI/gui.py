@@ -9,7 +9,13 @@ from scheduler import (
     preemptive_priority,
 )
 
-from GUI.menu import * 
+from . import (
+    DISPLAY,
+    FPS,
+    WIDTH,
+    HEIGHT,
+    WHITE
+) 
 
 dummy_process = [Process(1,0,7), Process(2, 2, 4), Process(3, 4, 1), Process(4, 5, 4)]
 
@@ -31,7 +37,7 @@ class GUIInterface():
         self._construct_gantt_chart(processes=dummy_process)
 
     def set_algorithm(self, _ , index):
-        algos = [fcfs, sjf_preemptive, sjf_non_preemptive, round_robin]
+        algos = [fcfs, sjf_non_preemptive, sjf_preemptive, round_robin]
         self.algorithm =  algos[index]
 
     def reset(self):
@@ -52,6 +58,8 @@ class GUIInterface():
                 pid,
                 (process.x + (process.width - pid.get_width()) / 2, process.y + (process.height - pid.get_height()) / 2)
             )
+
+        # should be used for animating 
         dt = self.clock.tick(FPS) / 1000
 
     def _construct_gantt_chart(self, processes: list[Process]=dummy_process):

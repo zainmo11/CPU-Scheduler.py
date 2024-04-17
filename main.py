@@ -1,12 +1,13 @@
 import pygame
 
-from menu import (
+from GUI import (
+    algorithm_selector,
     DISPLAY,
-    scheduler_window,
+    GUIInterface,
     main_menu,
-    algorithm_selector
-) 
-from gui import GUIInterface
+    scheduler_window,
+)
+
 
 graphical_interface = GUIInterface(scheduler_window)
 algorithm_selector.set_onchange(graphical_interface.set_algorithm)

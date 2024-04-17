@@ -1,19 +1,8 @@
-import pygame
 import pygame_menu as pgm
 
-from themes import *
+from . import WIDTH, HEIGHT
+from .themes import game_theme, main_menu_theme
 
-pygame.init()
-
-WIDTH = 1280
-HEIGHT = 720
-
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-GRAY = (211, 211, 211)
-# limit FPS to 30 fps
-FPS = 30
-DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
 
 scheduler_window = pgm.Menu(
     title="",

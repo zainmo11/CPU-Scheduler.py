@@ -1,3 +1,4 @@
+
 class Process:
     def __init__(self, pid, arrival_time, burst_time, priority=0):
         self.pid = pid

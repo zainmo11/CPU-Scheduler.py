@@ -1,4 +1,5 @@
-from process import *
+from .process import Process
+
 
 def non_preemptive_priority(processes):
     gantt = []
