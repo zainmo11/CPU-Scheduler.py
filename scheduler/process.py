@@ -1,6 +1,6 @@
 
 class Process:
-    def __init__(self, pid, arrival_time, burst_time, priority=0):
+    def __init__(self, pid: int, arrival_time: int, burst_time: int, priority: int =0):
         self.pid = pid
         self.arrival_time = arrival_time
         self.burst_time = burst_time
@@ -10,6 +10,14 @@ class Process:
         self.original_burst_time = burst_time
         self.priority = priority
         self.done = False
+               
+    def set_completion_time(self, time: int):
+        self.done = True
+        self.completion_time = time
+        self.turnaround_time = time - self.arrival_time
+        
+    def __str__(self) -> str:
+        return f"(ID = {self.pid}, Burst = {self.burst_time})"
 
     def _reset(self):
         self.burst_time = self.original_burst_time
