@@ -2,11 +2,12 @@ from .process import Process
 
 
 def fcfs(processes: list):
-    processes.sort(key=lambda x: x.arrival_time)
+    local_processes = processes.copy()
+    local_processes.sort(key=lambda x: x.arrival_time)
     elapsed, waiting, turnar = 0, 0, 0
     grantt = []
 
-    for process in processes:
+    for process in local_processes:
         # If there is an idle time before the process arrival, add an "Idle" tuple to the Gantt chart
         if elapsed < process.arrival_time:
             grantt.append(("Idle", elapsed, process.arrival_time))
@@ -22,9 +23,11 @@ def fcfs(processes: list):
         turnar += process.turnaround_time
         
     # Calculate average turnaround time and average waiting time
-    avg_turnaround_time = turnar / len(processes)
-    avg_waiting_time = waiting / len(processes)
-    Process.print_process(processes, avg_waiting_time, avg_turnaround_time)
+    avg_turnaround_time = avg_waiting_time = 0
+    if local_processes:
+        avg_turnaround_time = turnar / len(local_processes)
+        avg_waiting_time = waiting / len(local_processes)
+    Process.print_process(local_processes, avg_waiting_time, avg_turnaround_time)
     return grantt , avg_waiting_time, avg_turnaround_time
 
 

@@ -2,17 +2,18 @@ from .process import Process
 
 
 def sjf_non_preemptive(processes):
-    processes.sort(key=lambda process: process.burst_time)
+    local_processes = processes.copy()
+    local_processes.sort(key=lambda process: process.burst_time)
 
     current_time = 0
     completed = 0
     gantt = []
 
-    while completed < len(processes):
+    while completed < len(local_processes):
         next_process = None
         min_burst_time = float('inf')
 
-        for process in processes:
+        for process in local_processes:
             if process.arrival_time <= current_time and not process.done:
                 if process.burst_time < min_burst_time:
                     next_process = process
@@ -32,26 +33,29 @@ def sjf_non_preemptive(processes):
             current_time += 1
 
     # Calculate average waiting time and average turnaround time
-    total_waiting_time = sum(process.waiting_time for process in processes)
-    total_turnaround_time = sum(process.turnaround_time for process in processes)
-    avg_waiting_time = total_waiting_time / len(processes)
-    avg_turnaround_time = total_turnaround_time / len(processes)
-    Process.print_process(processes, avg_waiting_time, avg_turnaround_time)
+    avg_waiting_time = avg_turnaround_time = 0
+    if local_processes:
+        total_waiting_time = sum(process.waiting_time for process in local_processes)
+        total_turnaround_time = sum(process.turnaround_time for process in local_processes)
+        avg_waiting_time = total_waiting_time / len(local_processes)
+        avg_turnaround_time = total_turnaround_time / len(local_processes)
+    Process.print_process(local_processes, avg_waiting_time, avg_turnaround_time)
     print(gantt)
     return gantt, avg_waiting_time, avg_turnaround_time
 
 
 def sjf_preemptive(processes):
-    processes.sort(key=lambda process: process.arrival_time)
+    local_processes = processes.copy()
+    local_processes.sort(key=lambda process: process.arrival_time)
 
     current_time = 0
     completed = 0
     gantt = []
-    while completed < len(processes):
+    while completed < len(local_processes):
         next_process = None
         min_burst_time = float('inf')
 
-        for process in processes:
+        for process in local_processes:
             if process.arrival_time <= current_time and not process.done:
                 if process.burst_time < min_burst_time:
                     next_process = process
@@ -71,17 +75,20 @@ def sjf_preemptive(processes):
             gantt.append(("Idle", current_time - 1, current_time))
 
     # Calculate turnaround time and waiting time for each process
-    for process in processes:
+    for process in local_processes:
         process.turnaround_time = process.completion_time - process.arrival_time
         process.waiting_time = process.turnaround_time - process.original_burst_time
 
     # Calculate average waiting time and average turnaround time
-    total_waiting_time = sum(process.waiting_time for process in processes)
-    total_turnaround_time = sum(process.turnaround_time for process in processes)
-    avg_waiting_time = total_waiting_time / len(processes)
-    avg_turnaround_time = total_turnaround_time / len(processes)
+    avg_waiting_time = avg_turnaround_time = 0
+    if local_processes:
+        total_waiting_time = sum(process.waiting_time for process in local_processes)
+        total_turnaround_time = sum(process.turnaround_time for process in local_processes)
+        avg_waiting_time = total_waiting_time / len(local_processes)
+        avg_turnaround_time = total_turnaround_time / len(local_processes)
+
     print(gantt)
-    Process.print_process(processes, avg_waiting_time, avg_turnaround_time)
+    Process.print_process(local_processes, avg_waiting_time, avg_turnaround_time)
     return gantt, avg_waiting_time, avg_turnaround_time
 
 

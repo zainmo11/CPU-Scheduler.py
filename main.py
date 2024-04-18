@@ -5,9 +5,12 @@ from GUI import (
     algorithm_selector,
     arrival_time_input,
     burst_time_input,
+    change_button,
     DISPLAY,
     GUIInterface,
     main_menu,
+    priority_input,
+    quanta_input,
     scheduler_window,
 )
 
@@ -17,10 +20,24 @@ def set_and_construct(_, index):
     graphical_interface.set_algorithm(_, index)
     graphical_interface._construct_gantt_chart()
 
+def add_callback():
+    priority = (
+        priority_input.get_value()
+        if priority_input.get_value() else 5
+    )
+
+    graphical_interface.add_process(
+        int(arrival_time_input.get_value()),
+        int(burst_time_input.get_value()),
+        priority=priority
+    )
+
 algorithm_selector.set_onchange(set_and_construct)
-add_button.update_callback(lambda: graphical_interface.add_process(
-    int(arrival_time_input.get_value()), int(burst_time_input.get_value())
-))
+add_button.update_callback(add_callback)
+
+change_button.update_callback(
+    lambda: graphical_interface._construct_gantt_chart(quanta=int(quanta_input.get_value()))
+)
 
 def game_loop():
     while True:

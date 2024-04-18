@@ -19,7 +19,10 @@ from .menu import (
     arrival_time_input,
     algorithm_selector,
     burst_time_input,
+    change_button,
     main_menu,
+    priority_input,
+    quanta_input,
     scheduler_window,
 )
 from .gui import GUIInterface

@@ -42,8 +42,10 @@ def non_preemptive_priority(processes):
             completed[pid] = process
 
     print(gantt)
-    avg_waiting_time = sum(process.waiting_time for process in completed.values()) / len(completed)
-    avg_turnaround_time = sum(process.turnaround_time for process in completed.values()) / len(completed)
+    avg_waiting_time = avg_turnaround_time = 0
+    if completed:
+        avg_waiting_time = sum(process.waiting_time for process in completed.values()) / len(completed)
+        avg_turnaround_time = sum(process.turnaround_time for process in completed.values()) / len(completed)
     Process.print_process(list(completed.values()), avg_waiting_time, avg_turnaround_time)
     return gantt, avg_waiting_time, avg_turnaround_time
 
@@ -88,8 +90,10 @@ def preemptive_priority(processes):
                 local_processes.remove(process)
 
     print(gantt)
-    avg_waiting_time = sum(process.waiting_time for process in completed.values()) / len(completed)
-    avg_turnaround_time = sum(process.turnaround_time for process in completed.values()) / len(completed)
+    avg_waiting_time = avg_turnaround_time = 0
+    if completed:
+        avg_waiting_time = sum(process.waiting_time for process in completed.values()) / len(completed)
+        avg_turnaround_time = sum(process.turnaround_time for process in completed.values()) / len(completed)
     Process.print_process(list(completed.values()), avg_waiting_time, avg_turnaround_time)
     return gantt, avg_waiting_time, avg_turnaround_time
 
