@@ -15,6 +15,7 @@ class Process:
         self.done = True
         self.completion_time = time
         self.turnaround_time = time - self.arrival_time
+        self.waiting_time = self.turnaround_time - self.original_burst_time
         
     def __str__(self) -> str:
         return f"(ID = {self.pid}, Burst = {self.burst_time})"

@@ -133,12 +133,12 @@ class RoundRobin:
             process.burst_time -= to_consume
             gantt.append((process.pid, time, time + to_consume))
             time += to_consume            
-            print(f"Consumed {to_consume} from {process}")
+            # print(f"Consumed {to_consume} from {process}")
             
             if (process.burst_time > 0):
                 process_queue.put(process)
             else:
-                print(f"Process with id = {process.pid} got removed.")
+                # print(f"Process with id = {process.pid} got removed.")
                 process.set_completion_time(time)
                 done.append(process)
                 current_count -= 1
@@ -147,7 +147,7 @@ class RoundRobin:
         total_turnaround = 0
         for process in done:
             total_turnaround += process.turnaround_time
-            total_waiting += (process.turnaround_time - process.original_burst_time)
+            total_waiting += process.waiting_time
             
         return gantt, total_waiting/len(done), total_turnaround/len(done)
                 
@@ -155,4 +155,4 @@ if __name__ == "__main__":
     processes: list[Process] = [Process(1, 0, 3), Process(2, 1, 5), Process(3, 12, 10), Process(4, 12, 10)]
     (gantt, avg_waiting, avg_turn) = RoundRobin.process(processes)
     print(gantt)
-    
+    print(avg_waiting, avg_turn)
