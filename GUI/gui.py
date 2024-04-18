@@ -8,6 +8,7 @@ from scheduler import (
     sjf_preemptive,
     non_preemptive_priority,
     preemptive_priority,
+    round_robin
 )
 
 from . import (
@@ -19,10 +20,11 @@ from . import (
 ) 
 
 PROCESS_REGISTRY = [Process(1,0,7), Process(2, 2, 4), Process(3, 4, 1), Process(4, 5, 4)]
+QUANTUM = None
 
 #TODO
-def round_robin():
-    pass
+# def round_robin():
+#     pass
 
 class GUIInterface():
     
@@ -42,7 +44,7 @@ class GUIInterface():
             sjf_preemptive,
             non_preemptive_priority,
             preemptive_priority,
-            round_robin,
+            round_robin.RoundRobin.process
         ]
         self.algorithm =  algos[index]
 
