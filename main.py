@@ -22,7 +22,7 @@ def set_and_construct(_, index):
 
 def add_callback():
     priority = (
-        priority_input.get_value()
+        int(priority_input.get_value())
         if priority_input.get_value() else 5
     )
 
