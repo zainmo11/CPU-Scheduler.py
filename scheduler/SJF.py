@@ -1,3 +1,5 @@
+import copy
+
 from .process import Process
 
 
@@ -45,7 +47,7 @@ def sjf_non_preemptive(processes):
 
 
 def sjf_preemptive(processes):
-    local_processes = processes.copy()
+    local_processes = copy.deepcopy(processes)
     local_processes.sort(key=lambda process: process.arrival_time)
 
     current_time = 0

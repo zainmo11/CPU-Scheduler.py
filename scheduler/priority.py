@@ -1,3 +1,5 @@
+import copy
+
 from .process import Process
 
 
@@ -54,7 +56,7 @@ def preemptive_priority(processes):
     gantt = []
     completed = {}
     burst_times = {}
-    local_processes = processes.copy()
+    local_processes = copy.deepcopy(processes)
     for p in local_processes:
         burst_times[p.pid] = p.burst_time
     while local_processes:
