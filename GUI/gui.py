@@ -94,6 +94,10 @@ class GUIInterface():
 
         # Rendering happens here
         self._draw_process_table(events)
+        self.screen.blit(
+            self.stat_font.render("Gantt Chart", True, WHITE),
+            (30, HEIGHT / 3 + 60)
+        )
         self.screen.blit(self.font.render("0", True, WHITE), (30, HEIGHT / 3 + 140))
         for process, pid, start in self._process_rect_list:
             pygame.draw.rect(self.screen, WHITE, process, 2)
