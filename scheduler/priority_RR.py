@@ -1,6 +1,7 @@
 import copy
 
-from process import Process
+from .process import Process
+
 
 def preemptive_priority_RR(processes, **kwargs):
     t = 0
@@ -72,10 +73,10 @@ def preemptive_priority_RR(processes, **kwargs):
 # Test code
 if __name__ == "__main__":
     process_list = [
-        Process("1", 2, 6, 5),
-        Process("2", 5, 2, 4),
-        Process("3", 1, 2, 1),
-        Process("4", 0, 6, 3),
-        Process("5", 4, 4, 3)
+        Process(1, 2, 6, 5),
+        Process(2, 5, 2, 4),
+        Process(3, 1, 2, 1),
+        Process(4, 0, 6, 3),
+        Process(5, 4, 4, 3)
     ]
-preemptive_priority_RR(process_list)
+    preemptive_priority_RR(process_list)

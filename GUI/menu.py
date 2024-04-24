@@ -39,8 +39,9 @@ algorithm_selector = main_menu.add.selector(
         ("SJF-Non-Preemptive", 1),
         ("SJF-Preemptive", 2),
         ("Non-pre-emptive Priority", 3),
-        ("Pre-emptive Priority", 4),
-        ("Round-robin", 5),
+        ("Pre-emptive Priority", 4), 
+        ("Priority with Round robin", 5),
+        ("Round-robin", 6),
     ],
     onchange=None,
 )

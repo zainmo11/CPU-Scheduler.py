@@ -8,6 +8,7 @@ from scheduler import (
     sjf_preemptive,
     non_preemptive_priority,
     preemptive_priority,
+    preemptive_priority_RR,
     round_robin
 )
 
@@ -20,7 +21,13 @@ from . import (
     BLACK
 ) 
 
-PROCESS_REGISTRY = [Process(1, 0, 3), Process(2, 1, 5), Process(3, 12, 10), Process(4, 12, 10)]
+PROCESS_REGISTRY =  [
+    Process(1, 2, 6, 5),
+    Process(2, 5, 2, 4),
+    Process(3, 1, 2, 1),
+    Process(4, 0, 6, 3),
+    Process(5, 4, 4, 3), 
+]
 
 class GUIInterface():
     
@@ -41,26 +48,28 @@ class GUIInterface():
             sjf_preemptive,
             non_preemptive_priority,
             preemptive_priority,
+            preemptive_priority_RR,
             round_robin,
         ]
         self.algorithm = algos[index]
         quanta_input = self._menu.get_widget("quanta_input")
         quanta_change = self._menu.get_widget("quanta_change")
         priority_input = self._menu.get_widget("priority_input")
+ 
+        quanta_input.hide()
+        quanta_change.hide()
+        priority_input.hide()
 
         # can't think of a better way, my brain is fried
         if self.algorithm == non_preemptive_priority or self.algorithm == preemptive_priority:
-            quanta_input.hide()
-            quanta_change.hide()
             priority_input.show()
         elif self.algorithm == round_robin:
             quanta_input.show()
             quanta_change.show()
-            priority_input.hide()
-        else:
-            quanta_input.hide()
-            quanta_change.hide()
-            priority_input.hide()
+        elif self.algorithm == preemptive_priority_RR:
+            quanta_input.show()
+            quanta_change.show()
+            priority_input.show()
 
     def reset(self):
         self._menu.full_reset()
