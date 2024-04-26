@@ -60,12 +60,14 @@ back_button.update_callback(start_callback)
 change_button.update_callback(quanta_change)
 
 def game_loop():
-    while True:
+    running = True
+
+    while running:
         DISPLAY.fill("#252525")
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
-                exit()
+                running = False
 
         if main_menu.is_enabled():
             main_menu.update(events)
