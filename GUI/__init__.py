@@ -14,15 +14,5 @@ GRAY = (211, 211, 211)
 FPS = 30
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
 
-from .menu import (
-    add_button,
-    arrival_time_input,
-    algorithm_selector,
-    burst_time_input,
-    change_button,
-    main_menu,
-    priority_input,
-    quanta_input,
-    scheduler_window,
-)
+from .menu import * 
 from .gui import GUIInterface

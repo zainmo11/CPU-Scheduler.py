@@ -1,7 +1,11 @@
+import time
 import pygame
 
 from GUI import (
     add_button,
+    live_button,
+    back_button,
+    play_button,
     algorithm_selector,
     arrival_time_input,
     burst_time_input,
@@ -32,12 +36,28 @@ def add_callback():
         priority=priority
     )
 
-algorithm_selector.set_onchange(set_and_construct)
-add_button.update_callback(add_callback)
+def start_callback():
+    main_menu.toggle()
+    scheduler_window.toggle()
+    
+    if scheduler_window.is_enabled():
+        graphical_interface.start_time = time.time()
 
-change_button.update_callback(
-    lambda: graphical_interface._construct_gantt_chart(quanta=int(quanta_input.get_value()))
-)
+def toggle_live(val, *args, **kwargs):
+    graphical_interface.start_time = time.time()
+    graphical_interface.live_scheduler = val
+    graphical_interface._construct_gantt_chart()
+
+def quanta_change():
+    graphical_interface.quanta = int(quanta_input.get_value())
+    graphical_interface._construct_gantt_chart(quanta=graphical_interface.quanta)
+    
+algorithm_selector.set_onchange(set_and_construct)
+live_button.set_onchange(toggle_live)
+add_button.update_callback(add_callback)
+play_button.update_callback(start_callback)
+back_button.update_callback(start_callback)
+change_button.update_callback(quanta_change)
 
 def game_loop():
     while True:

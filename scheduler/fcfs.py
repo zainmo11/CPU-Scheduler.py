@@ -1,7 +1,7 @@
-from .process import Process
+from .process import DEBUG, Process
 
 
-def fcfs(processes: list):
+def fcfs(processes: list, *args, **kwargs):
     local_processes = processes.copy()
     local_processes.sort(key=lambda x: x.arrival_time)
     elapsed, waiting, turnar = 0, 0, 0
@@ -27,7 +27,8 @@ def fcfs(processes: list):
     if local_processes:
         avg_turnaround_time = turnar / len(local_processes)
         avg_waiting_time = waiting / len(local_processes)
-    Process.print_process(local_processes, avg_waiting_time, avg_turnaround_time)
+    if DEBUG:
+        Process.print_process(local_processes, avg_waiting_time, avg_turnaround_time)
     return grantt , avg_waiting_time, avg_turnaround_time
 
 

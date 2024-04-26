@@ -27,11 +27,7 @@ main_menu = pgm.Menu(
     verbose=False,
 )
 
-def switch_scenes():
-    main_menu.toggle()
-    scheduler_window.toggle()
-
-play_button = main_menu.add.button("Start Scheduling", switch_scenes)
+play_button = main_menu.add.button("Start Scheduling")
 algorithm_selector = main_menu.add.selector(
     "Algorithm ",
     [
@@ -47,10 +43,12 @@ algorithm_selector = main_menu.add.selector(
 )
 quit_button = main_menu.add.button("Quit", pgm.events.EXIT)
 
-back_button = scheduler_window.add.button("Back", switch_scenes, align=pgm.locals.ALIGN_RIGHT)
+back_button = scheduler_window.add.button("Back", align=pgm.locals.ALIGN_RIGHT)
 back_button.translate(-10, 10)
 add_button = scheduler_window.add.button("Add", background_color=WHITE)
 add_button.translate(-70, 1.8 * (HEIGHT / 3) + 100)
+live_button = scheduler_window.add.toggle_switch("live", default=1, align=pgm.locals.ALIGN_RIGHT)
+
 arrival_time_input = scheduler_window.add.text_input("Arrival Time: ")
 arrival_time_input.translate(-200, 1.8 * (HEIGHT / 3))
 burst_time_input = scheduler_window.add.text_input("Burst Time: ")

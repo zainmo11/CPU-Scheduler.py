@@ -1,3 +1,4 @@
+import time
 import pygame
 import pygame_menu
 
@@ -33,11 +34,14 @@ class GUIInterface():
     
     def __init__(self, scheduler_window):
         self._menu = scheduler_window
-        self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont(None, 24)
         self.stat_font = pygame.font.Font(pygame_menu.font.FONT_MUNRO, 24)
         self._smaller_font = pygame.font.Font(pygame_menu.font.FONT_MUNRO, 18)
         self.screen = DISPLAY
+        self.total_time = 0.1
+        self.start_time = 0
+        self.quanta = 5
+        self.live_scheduler = True
         self.algorithm = fcfs
         self._construct_gantt_chart(processes=PROCESS_REGISTRY)
 
@@ -86,6 +90,8 @@ class GUIInterface():
         self._construct_gantt_chart()
 
     def start_update_loop(self, events):
+        current_time = time.time() + 1
+        self.total_time = int(current_time - self.start_time)
         self._menu.update(events)
         try:
             self._menu.draw(self.screen)
@@ -99,6 +105,9 @@ class GUIInterface():
             (30, HEIGHT / 3 + 60)
         )
         self.screen.blit(self.font.render("0", True, WHITE), (30, HEIGHT / 3 + 140))
+        if self.live_scheduler:
+            self.screen.blit(self.stat_font.render(f"Seconds passed: {self.total_time}", True, WHITE), (WIDTH - 200, HEIGHT / 3))
+            self._construct_gantt_chart(quanta=self.quanta)
         for process, pid, start in self._process_rect_list:
             pygame.draw.rect(self.screen, WHITE, process, 2)
             self.screen.blit(
@@ -114,9 +123,6 @@ class GUIInterface():
             self.screen.blit(self.waiting_time, (30, HEIGHT / 2 + 65))
             self.screen.blit(self.turnaround_time, (30, HEIGHT / 2 + 95))
 
-        # should be used for animating 
-        dt = self.clock.tick(FPS) / 1000
-    
     def _draw_process_table(self, events):
         if not PROCESS_REGISTRY:
             return
@@ -134,7 +140,7 @@ class GUIInterface():
                 (start_coordinate, 30)
             )
             start_coordinate += header.get_width() + 10
-            t = pygame.draw.line(
+            pygame.draw.line(
                 self.screen,
                 WHITE,
                 (start_coordinate - 7, 40),
@@ -153,7 +159,7 @@ class GUIInterface():
             )
 
             start_coordinate_x = 50
-            for index, value_name in enumerate(["pid", "arrival_time", "burst_time", "priority"]):
+            for index, value_name in enumerate(["pid", "arrival_time", "original_burst_time", "priority"]):
                 value = getattr(process, value_name)
                 stat = self.stat_font.render(f"{value}", True, WHITE)
                 start_coordinate_x += headers[index].get_width() / 2
@@ -190,7 +196,7 @@ class GUIInterface():
     def _construct_gantt_chart(self, processes: list[Process]=PROCESS_REGISTRY, **kwargs):
         y_coordinate = HEIGHT / 3 + 100
         rectangle_width = WIDTH - 60
-
+        
         processes = Process.reset_all(processes)
         rendering_list, avg_waiting_time, avg_turnaround_time = self.algorithm(processes, **kwargs)
         if not rendering_list:
@@ -198,31 +204,51 @@ class GUIInterface():
                 (
                     pygame.rect.Rect(30, y_coordinate, rectangle_width, 30),
                     self.font.render("Idle", True, WHITE),
-                    self.font.render("t", True, WHITE),
+                    self.font.render(f"{self.total_time}" if self.live_scheduler else "t", True, WHITE),
                 )
             ]
             return
 
-        total_time = max([process[2] for process in rendering_list])
-        chart_unit_time = rectangle_width / total_time
+        total_time = max([process[2] for process in rendering_list]) 
+        chart_unit_time = rectangle_width / (self.total_time if self.live_scheduler else total_time)
 
         self._process_rect_list = []
         last_process_end = 30
         for pid, start, completion in rendering_list:
-            process_width = (completion - start) * chart_unit_time
             process_label = f"P:{pid}" if isinstance(pid, int) else pid
 
-            self._process_rect_list.append(
-                (
-                    pygame.rect.Rect(last_process_end, y_coordinate, process_width, 30),
-                    self.font.render(process_label, True, WHITE),
-                    self.font.render(f"{completion}", True, WHITE),
+            if self.live_scheduler:
+                if completion > self.total_time:
+                    completion = self.total_time
+                process_width = (completion - start) * chart_unit_time
+                self._process_rect_list.append(
+                    (
+                        pygame.rect.Rect(last_process_end, y_coordinate, process_width, 30),
+                        self.font.render(process_label, True, WHITE),
+                        self.font.render(f"{completion}", True, WHITE),
+                    )
                 )
-            )
-
+                if completion >= self.total_time:
+                    break
+            else:
+                process_width = (completion - start) * chart_unit_time
+                self._process_rect_list.append(
+                    (
+                        pygame.rect.Rect(last_process_end, y_coordinate, process_width, 30),
+                        self.font.render(process_label, True, WHITE),
+                        self.font.render(f"{completion}", True, WHITE),
+                    )
+                ) 
             last_process_end = last_process_end - 2 + process_width
         
+            if self.live_scheduler and len(self._process_rect_list) == len(rendering_list):
+                process_width = rectangle_width - last_process_end + 30
+                self._process_rect_list.append((
+                    pygame.rect.Rect(last_process_end, y_coordinate, process_width, 30),
+                    self.font.render("Idle" if process_width > 10 else "", True, WHITE),
+                    self.font.render(f"{self.total_time}", True, WHITE),
+                ))
+   
         self.waiting_time = self.stat_font.render(f"Average Waiting Time: {avg_waiting_time}", True, WHITE)
         self.turnaround_time = self.stat_font.render(f"Average Turn Around Time: {avg_turnaround_time}", True, WHITE)
 
-    

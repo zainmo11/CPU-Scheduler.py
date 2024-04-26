@@ -1,3 +1,4 @@
+DEBUG = False
 
 class Process:
     def __init__(self, pid: int, arrival_time: int, burst_time: int, priority: int = 5):

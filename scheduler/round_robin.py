@@ -1,5 +1,3 @@
-import copy
-
 from .process import Process
 from queue import Queue
 
@@ -11,7 +9,7 @@ def round_robin(processes: list[Process], **kwargs):
     gantt: list[tuple[int | str, int, int]] = []
     done: list[Process] = []
     
-    local_processes = copy.deepcopy(processes)
+    local_processes = processes.copy()
     quantum = kwargs.pop("quanta", 5)
     
     for p in local_processes:

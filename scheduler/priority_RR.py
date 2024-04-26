@@ -1,6 +1,6 @@
 import copy
 
-from .process import Process
+from .process import DEBUG, Process
 
 
 def preemptive_priority_RR(processes, **kwargs):
@@ -67,7 +67,8 @@ def preemptive_priority_RR(processes, **kwargs):
     if completed:
         avg_waiting_time = sum(process.waiting_time for process in completed.values()) / len(completed)
         avg_turnaround_time = sum(process.turnaround_time for process in completed.values()) / len(completed)
-    Process.print_process(list(completed.values()), avg_waiting_time, avg_turnaround_time)
+    if DEBUG:
+        Process.print_process(list(completed.values()), avg_waiting_time, avg_turnaround_time)
     return gantt, avg_waiting_time, avg_turnaround_time
  
 # Test code
