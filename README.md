@@ -2,6 +2,10 @@
 This project is a CPU scheduler simulator with a graphical user interface (GUI) built using pygame and pygame_menu. It demonstrates various CPU scheduling algorithms by simulating processes and visualizing the scheduling process through a Gantt chart.
 
 
+
+https://github.com/zainmo11/CPU-Scheduler.py/assets/89034348/8d95845d-2b1f-41c3-be83-414e452ab266
+
+
 https://github.com/zainmo11/CPU-Scheduler.py/assets/89034348/6e173347-2789-4d63-b398-a8a86730a5a2
 
 
